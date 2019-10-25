@@ -44,8 +44,8 @@ public class MainMenu : MonoBehaviour{
             //UnityEditor.EditorUtility.DisplayDialog("No Name Entered", "Please enter your name in the box so you can begin.", "OK");
         }
         else {
-            GameManagement.manage.playerName = playersName;
-            Application.LoadLevel(Constants.STEALTH_LEVEL);
+            /*GameManagement.manage.playerName = playersName;
+            Application.LoadLevel(Constants.STEALTH_LEVEL);*/
         }
     }
 
@@ -54,7 +54,8 @@ public class MainMenu : MonoBehaviour{
     }
 
     public void LoadGame() {
-    Debug.Log(GameManagement.manage.HasSaveFile());
+        Debug.Log("Would load a save game here.");
+        /*Debug.Log(GameManagement.manage.HasSaveFile());
         if (!GameManagement.manage.HasSaveFile()) {
             //Window.alert("no saved games, please start a new one");
             NoSaveGameCanvas.enabled = true;
@@ -63,7 +64,8 @@ public class MainMenu : MonoBehaviour{
         else { 
             GameManagement.manage.Load();
             Application.LoadLevel(GameManagement.manage.CurrentLevel);
-        }
+        }*/
+    
     }
 
     public void EndGame(){
