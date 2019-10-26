@@ -1,7 +1,7 @@
 # weighted-war
 Strategic war with weighted battles. 
 
-## This is an H2
+## How it works
 Classic war game with a twist!
 Player gets a hand of cards to tactically choose which to play. Trying to gauge their opponents. Oh yeah, did I mention you can battle more than one person!
 
