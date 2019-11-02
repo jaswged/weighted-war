@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 635ca063af8e66c4abc966b2f4b5864d
+=======
+guid: 9049645ad69e2d14b9a1bfffb510d647
+>>>>>>> StateMachine
 DefaultImporter:
   externalObjects: {}
   userData: 

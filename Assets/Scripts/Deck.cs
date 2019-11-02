@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Deck {
+public class Deck : MonoBehaviour{
+    public bool isRed { get; set; }
+    private List<Card> deck = new List<Card>();
+    public GameObject go;
 
-    private List<Card> deck;
-    private static Random random = new Random();
-    
     public void Shuffle() {
         var count = deck.Count;
         while (count > 1) {
@@ -23,6 +23,8 @@ public class Deck {
         deck.Remove(drawnCard);
         return drawnCard;
     }
-    
-    
+
+    public void AddCard(Card card) {
+        deck.Add(card);
+    }
 }
