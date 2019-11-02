@@ -9,5 +9,4 @@ In addition each battle isn't simply fixed based on number, but rather a chance 
 
 Get ready for some weighted war!
 
-###### This is an H6
 Copyright 2019

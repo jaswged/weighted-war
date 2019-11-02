@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour{
 
     public void CancelButton() {
         nameCanvas.enabled = false;
-    }
+    } 
 
     public void OkButton() {
         NoNameEnteredCanvas.enabled = false;
