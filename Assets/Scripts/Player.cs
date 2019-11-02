@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player {
 	// TODO replace with Deck object
-	public List<GameObject> deck;
+	public Deck deck;
 
 	public GameObject hand;
 
@@ -15,7 +15,7 @@ public class Player {
 	public Player(string name, bool isAi) {
 		this.Name = name;
 		this.isAi = isAi;
-		
-		deck = new List<GameObject>();
+
+		deck = new Deck();
 	}
 }

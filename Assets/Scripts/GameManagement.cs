@@ -3,35 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player {
-    public static GameManager instance;
+public class GameManagement : MonoBehaviour{
+    public static GameManagement instance;
     private Camera mainCamera;
 	
     private Player red;
     private Player black;
     [SerializeField]
-	private Player currentPlayer;
+    private PlayMat _playMat;
 
     void Awake() {
         instance = this;
         mainCamera = Camera.main;
     }
 
-	void Start () {
+    void Start () {
         red = new Player("red", true);
         black = new Player("black", false);
 
-		// TODO Create player method that creates deck and such?
-        currentPlayer = white;
-        otherPlayer = black;
-
-        InitialSetup();
+        _playMat.Initialize();
     }
-
-	private void InitialSetup() {
-		// TODO Spawn decks
-
-		// Draw hands
-
-	}
 }
