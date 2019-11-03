@@ -36,11 +36,11 @@ public class PlayMat : MonoBehaviour {
     private Card playerBuriedCard;
     
     public void Initialize() {
-        aiDeck = SpawnDeck(true);
-        playerDeck = SpawnDeck(false);
+        aiDeck = SpawnDeck(false);
+        playerDeck = SpawnDeck(true);
         
-        aiHand = SpawnHand(true);
-        playerHand = SpawnHand(false);
+        aiHand = SpawnHand(false);
+        playerHand = SpawnHand(true);
         
         DrawPlayerHand(true, true);
         DrawPlayerHand(false,true);
@@ -74,7 +74,7 @@ public class PlayMat : MonoBehaviour {
 
     private Hand SpawnHand(bool isPlayer) {
         // Spawn Hand
-        var handGo = Instantiate(handPrefab, (isPlayer ? new Vector3(0, .61f, -4.5f) : new Vector3(0, .91f, 3f)),  
+        var handGo = Instantiate(handPrefab, (isPlayer ?  new Vector3(1.85f, 3.6f, 7.35f): new Vector3(1.8f, 3.5f, .17f)),  
             Quaternion.identity, playMat.transform);
         handGo.name = isPlayer ? "PlayerHand" : "OpponentHand";
         Hand hand = handGo.GetComponent<Hand>();
