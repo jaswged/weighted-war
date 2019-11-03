@@ -128,7 +128,7 @@ public class PlayMat : MonoBehaviour {
 
 
     public void BuryCard(GameObject movingCard, bool isPlayer) {
-        var handToRemoveFrom = isPlayer ? aiHand : playerHand;
+        var handToRemoveFrom = isPlayer ? playerHand : aiHand;
 
         movingCard.transform.position = isPlayer ? aiWarCard.transform.position : playerWarCard.transform.position;
         movingCard.transform.parent = (isPlayer ? aiWarCard.transform : playerWarCard.transform);
@@ -147,7 +147,7 @@ public class PlayMat : MonoBehaviour {
     }
 
     public void PlaceCard(GameObject movingCard, bool isPlayer) {
-        var handToRemoveFrom = isPlayer ? aiHand : playerHand;
+        var handToRemoveFrom = isPlayer ? playerHand: aiHand;
 
         var card = movingCard.GetComponent<Card>();
 
