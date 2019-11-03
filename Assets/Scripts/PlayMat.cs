@@ -130,17 +130,17 @@ public class PlayMat : MonoBehaviour {
     public void BuryCard(GameObject movingCard, bool isPlayer) {
         var handToRemoveFrom = isPlayer ? playerHand : aiHand;
 
-        movingCard.transform.position = isPlayer ? aiWarCard.transform.position : playerWarCard.transform.position;
-        movingCard.transform.parent = (isPlayer ? aiWarCard.transform : playerWarCard.transform);
+        movingCard.transform.position = isPlayer ? playerWarCard.transform.position : aiWarCard.transform.position;
+        movingCard.transform.parent = (isPlayer ? playerWarCard.transform : aiWarCard.transform);
 
         // TODO @Taylor rotate back to flat
 
         var card = movingCard.GetComponent<Card>();
         if (isPlayer) {
-            aiBuriedCard = card;
+            playerBuriedCard = card;
         }
         else {
-            playerBuriedCard = card;
+            aiBuriedCard = card;
         }
 
         handToRemoveFrom.hand.Remove(card);
