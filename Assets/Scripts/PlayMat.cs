@@ -118,7 +118,7 @@ public class PlayMat : MonoBehaviour {
             Card card = cardGo.GetComponent<Card>();
             card.Value = i;
             card.name = i + " of " + card.Suit;
-            card.Suit = isPlayer ? Suit.Diamonds : Suit.Clubs;
+            card.Suit = suit;
             card.SetGo(cardGo);
             cardGo.name = i + " of " + card.Suit;
 
@@ -154,14 +154,14 @@ public class PlayMat : MonoBehaviour {
         // TODO @Taylor rotate back to flat
 
         movingCard.transform.position =
-            (isPlayer ? aiBattlePosition.transform.position : playerBattlePosition.transform.position);
-        movingCard.transform.parent = (isPlayer ? aiBattlePosition.transform : playerBattlePosition.transform);
+            (isPlayer ? playerBattlePosition.transform.position : aiBattlePosition.transform.position);
+        movingCard.transform.parent = (isPlayer ? playerBattlePosition.transform : aiBattlePosition.transform);
 
         handToRemoveFrom.hand.Remove(card);
     }
 
     public void DiscardCard(GameObject blackCard, bool isPlayer) {
-        var graveToUse = isPlayer ? aiGraveyard : playerGraveyard;
+        var graveToUse = isPlayer ?playerGraveyard : aiGraveyard  ;
         blackCard.transform.position = graveToUse.transform.position;
         blackCard.transform.parent = graveToUse.transform;
     }
