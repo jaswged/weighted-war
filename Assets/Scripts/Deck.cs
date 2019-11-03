@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Deck : MonoBehaviour{
-    public bool isRed { get; set; }
+    public bool isPlayer { get; set; }
     private List<Card> deck = new List<Card>();
     public GameObject go;
 

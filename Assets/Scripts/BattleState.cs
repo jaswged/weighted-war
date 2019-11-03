@@ -3,31 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleState : MonoBehaviour {
-    private GameObject redCard;
-    private GameObject blackCard;
+    private GameObject playerCard;
+    private GameObject opponentCard;
     [SerializeField]
     private Material battleMaterial;
+    [SerializeField]
+    private GameObject playerFieldCard;
+    [SerializeField]
+    private GameObject aiFieldCard;
     
     void Update(){
         // Battle Happens Here
-        
+        //Fight();
+
         // Animations and results.
 
         if (Input.GetMouseButtonDown(1)) {
             // TODO Check if set win condition
             
             // TODO If war just happened pick new bury card and start set over.
-            GameManagement.instance.DiscardCard(blackCard);
+            GameManagement.instance.DiscardCard(opponentCard, false);
+            GameManagement.instance.DiscardCard(playerCard, true);
             ExitState();
         }
     }
 
-    public void EnterState(GameObject movingCard) {
+    private void Fight() {
+        // TODO Find the winner. 
+        Card aiCard = aiFieldCard.GetComponentInChildren<Card>();
+        Card playerCard = playerFieldCard.GetComponentInChildren<Card>();
+        Debug.LogFormat("Player card: {0}, AI Card {1}", playerCard.value, aiCard.value);
+
+        if (aiCard.value == playerCard.value) {
+            Debug.LogError("WAR HAS BROKE OUT!!!!");
+        }
+        else {
+            var winner = aiCard.value > playerCard.value;
+            GameManagement.instance.IncrementRoundScore(winner);
+        }
+    }
+
+    public void EnterState(GameObject playCard, GameObject aiCard) {
         this.enabled = true;
-        blackCard = movingCard;
+        opponentCard = aiCard;
+        this.playerCard = playCard;
         
-        MeshRenderer renderers = movingCard.GetComponentInChildren<MeshRenderer>();
+        MeshRenderer renderers = playerCard.GetComponentInChildren<MeshRenderer>();
         renderers.material = battleMaterial;
+        MeshRenderer renderersAi = aiCard.GetComponentInChildren<MeshRenderer>();
+        renderersAi.material = battleMaterial;
         
         Debug.Log("Time to do some combat yo!");
     }
@@ -35,6 +59,6 @@ public class BattleState : MonoBehaviour {
     public void ExitState() {
         Debug.Log("Exit battle state");
         this.enabled = false;
-        GameManagement.instance._cardSelector.enabled = true;
+        GameManagement.instance._cardSelector.EnterState();
     }
 }

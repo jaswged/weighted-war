@@ -14,34 +14,33 @@ public class PlayMat : MonoBehaviour {
     private GameObject playMat;
 
     [SerializeField]
-    private GameObject redGraveyard;
+    private GameObject aiGraveyard;
     [SerializeField]
-    private GameObject blackGraveyard;
+    private GameObject playerGraveyard;
     [SerializeField]
-    private GameObject redBuryPit;
+    private GameObject aiWarCard;
     [SerializeField]
-    private GameObject blackberryPit;
+    private GameObject playerWarCard;
     [SerializeField]
-    private GameObject redBattlePosition;
+    private GameObject aiBattlePosition;
     [SerializeField]
-    private GameObject blackBattlePosition;
+    private GameObject playerBattlePosition;
     
-    public Deck redDeck;
-    public Deck blackDeck;
+    public Deck aiDeck;
+    public Deck playerDeck;
 
-    public Hand redHand;
-    public Hand blackHand;
+    public Hand aiHand;
+    public Hand playerHand;
 
-    private Card redBuriedCard;
-    private Card blackberryCard;
+    private Card aiBuriedCard;
+    private Card playerBuriedCard;
     
     public void Initialize() {
-        redDeck = SpawnDeck(true);
-        blackDeck = SpawnDeck(false);
+        aiDeck = SpawnDeck(true);
+        playerDeck = SpawnDeck(false);
         
-        Debug.Log(("Draw the hand!")); 
-        redHand = SpawnHand(true);
-        blackHand = SpawnHand(false);
+        aiHand = SpawnHand(true);
+        playerHand = SpawnHand(false);
         
         DrawPlayerHand(true, true);
         DrawPlayerHand(false,true);
@@ -54,40 +53,43 @@ public class PlayMat : MonoBehaviour {
         
     } 
 
-    private void DrawPlayerHand(bool isRed, bool is6CardHand) {
-        var handToUse = isRed ? redHand : blackHand;
-        var deckToUse = isRed ? redDeck : blackDeck;
+    private void DrawPlayerHand(bool isPlayer, bool is6CardHand) {
+        var handToUse = isPlayer ? playerHand : aiHand;
+        var deckToUse = isPlayer ? playerDeck : aiDeck;
         for (var i = handToUse.hand.Count; i < (is6CardHand ? 6 : 5); i++) {
             Card card = deckToUse.Draw();
             handToUse.hand.Add(card);   
             
             // Reparent the card under the hand object.
-            card.go.transform.parent = handToUse.go.transform;
-            card.go.transform.rotation = isRed ? Quaternion.Euler(-33.44f, 0f,0f) : Quaternion.Euler(33.44f, 0f,0f) ; 
+            GameObject go = card.GetGo();
+            go.transform.parent = handToUse.go.transform;
+            go.transform.rotation = isPlayer ? Quaternion.Euler(-33.44f, 0f,0f) : Quaternion.Euler(33.44f, 0f,0f) ; 
             // TODO Taylor fix height problem
-            card.go.transform.position = handToUse.go.transform.position + (isRed ? new Vector3(-1.9f+(i*.75f), 0,0) : new Vector3(-1.9f+(i*.75f), 0,0));
-            card.go.transform.localScale -= new Vector3(.3f, .3f, 0);
+            go.transform.position = handToUse.go.transform.position + 
+                                         (isPlayer ? new Vector3(-1.9f+(i*.75f), 0,0) : 
+                                             new Vector3(-1.9f+(i*.75f), 0,0));
+            go.transform.localScale -= new Vector3(.3f, .3f, 0);
         }
     }
 
-    private Hand SpawnHand(bool isRed) {
+    private Hand SpawnHand(bool isPlayer) {
         // Spawn Hand
-        var handGo = Instantiate(handPrefab, (isRed ? new Vector3(0, .91f, 3f) : new Vector3(0, .61f, -4.5f)),  
+        var handGo = Instantiate(handPrefab, (isPlayer ? new Vector3(0, .61f, -4.5f) : new Vector3(0, .91f, 3f)),  
             Quaternion.identity, playMat.transform);
-        handGo.name = isRed ? "RedHand" : "BlackHand";
+        handGo.name = isPlayer ? "PlayerHand" : "OpponentHand";
         Hand hand = handGo.GetComponent<Hand>();
         hand.go = handGo;
 
         return hand;
     }
 
-    private Deck SpawnDeck(bool isRed) {
+    private Deck SpawnDeck(bool isPlayer) {
         // TODO for reuse, pass in deck object?
         var deckGo = Instantiate(deckPrefab, playMat.transform);
         
-        deckGo.name = isRed ? "RedDeck" : "BlackDeck";
+        deckGo.name = isPlayer ? "PlayerDeck" : "OpponentDeck";
         Deck deck = deckGo.GetComponent<Deck>();
-        deck.isRed = isRed;
+        deck.isPlayer = isPlayer;
         deck.go = deckGo;
 
         // TODO spawn and shuffle the deck object first with its cards.
@@ -95,12 +97,12 @@ public class PlayMat : MonoBehaviour {
         
         for (int i = 2; i <= 14; i++) {
             var cardGo = GameObject.Instantiate(cardPrefab,
-                    (isRed ? new Vector3(-4.01f, 0.1f-.3f, 3.5f) : new Vector3(3.87f, 0.1f-.3f, -3.8f)) + new Vector3(0, i * .05f, 0),
+                    (isPlayer ? new Vector3(-4.01f, 0.1f-.3f, 3.5f) : new Vector3(3.87f, 0.1f-.3f, -3.8f)) + new Vector3(0, i * .05f, 0),
                     cardPrefab.transform.rotation, deckGo.transform);
             Card card = cardGo.GetComponent<Card>();
             card.value = i;
-            card.suit = isRed ? Suit.Diamonds : Suit.Clubs;
-            card.go = cardGo;
+            card.suit = isPlayer ? Suit.Diamonds : Suit.Clubs;
+            card.SetGo(cardGo);
             cardGo.name = i + " of " + card.suit;
             
             deck.AddCard(card);
@@ -108,13 +110,12 @@ public class PlayMat : MonoBehaviour {
 
             // Create second card for same value
             var cardGo2 = GameObject.Instantiate(cardPrefab,
-                (isRed ? new Vector3(-4.01f, 0.1f, 3.5f) : new Vector3(3.87f, 0.1f, -3.8f)) + new Vector3(0, cardGo.transform.position.y + .025f-0.09f, 0),
+                (isPlayer ? new Vector3(3.87f, 0.1f, -3.8f) : new Vector3(-4.01f, 0.1f, 3.5f)) + new Vector3(0, cardGo.transform.position.y + .025f-0.09f, 0),
                 cardPrefab.transform.rotation, deckGo.transform);
             Card card2 = cardGo2.GetComponent<Card>();
             card2.value = i;
-            card2.go = cardGo2;
-            card2.go = cardGo2;
-            card2.suit = isRed ? Suit.Hearts : Suit.Spades;
+            card2.SetGo(cardGo2);
+            card2.suit = isPlayer ? Suit.Hearts : Suit.Spades;
             cardGo2.name = i + " of " + card2.suit;
 //            cardGo2.GetComponent<Material>() = redMaterial;
             deck.AddCard(card2);
@@ -123,39 +124,52 @@ public class PlayMat : MonoBehaviour {
         return deck;
     }
 
-    public void BuryCard(GameObject movingCard, bool isRed) {
-        var handToRemoveFrom = isRed ? redHand : blackHand;
+    public void BuryCard(GameObject movingCard, bool isPlayer) {
+        var handToRemoveFrom = isPlayer ? aiHand : playerHand;
         
-        movingCard.transform.position = isRed ? redBuryPit.transform.position : blackberryPit.transform.position;
-        movingCard.transform.parent = (isRed ? redBuryPit.transform : blackberryPit.transform);
+        movingCard.transform.position = isPlayer ? aiWarCard.transform.position : playerWarCard.transform.position;
+        movingCard.transform.parent = (isPlayer ? aiWarCard.transform : playerWarCard.transform);
         // TODO @Taylor rotate back to flat
         
         var card = movingCard.GetComponent<Card>();
-        if (isRed) {
-            redBuriedCard = card;
+        if (isPlayer) {
+            aiBuriedCard = card;
         }
         else {
-            blackberryCard = card;
+            playerBuriedCard = card;
         }
 
         handToRemoveFrom.hand.Remove(card);
     }
 
-    public void PlaceCard(GameObject movingCard, bool isRed) {
-        var handToRemoveFrom = isRed ? redHand : blackHand;
+    public void PlaceCard(GameObject movingCard, bool isPlayer) {
+        var handToRemoveFrom = isPlayer ? aiHand : playerHand;
         
         var card = movingCard.GetComponent<Card>();
         // TODO @Taylor rotate back to flat
 
-            movingCard.transform.position = (isRed ? redBattlePosition.transform.position: blackBattlePosition.transform.position);
-            movingCard.transform.parent = (isRed ? redBattlePosition.transform : blackBattlePosition.transform);
+            movingCard.transform.position = (isPlayer ? aiBattlePosition.transform.position: playerBattlePosition.transform.position);
+            movingCard.transform.parent = (isPlayer ? aiBattlePosition.transform : playerBattlePosition.transform);
 
             handToRemoveFrom.hand.Remove(card);
     }
 
-    public void DiscardCard(GameObject blackCard, bool isRed) {
-        var graveToUse = isRed ? redGraveyard : blackGraveyard;
+    public void DiscardCard(GameObject blackCard, bool isPlayer) {
+        var graveToUse = isPlayer ? aiGraveyard : playerGraveyard;
         blackCard.transform.position = graveToUse.transform.position;
         blackCard.transform.parent = graveToUse.transform;
+    }
+
+    public GameObject PickAiCard(bool isWarCard) {
+        Debug.Log("Ai hand count: " + aiHand.hand.Count);
+        Card card = aiHand.hand[Random.Range(0, aiHand.hand.Count)];
+        if (isWarCard) {
+            BuryCard(card.GetGo(), false);
+        }
+        else {
+            PlaceCard(card.GetGo(), false);
+        }
+
+        return card.GetGo();
     }
 }

@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class CardSelector : MonoBehaviour {
     public GameObject cardHighlightPrefab;
-    private GameObject cardHighlight;
     public Material selectedMaterial;
-
+    private bool cardPickedForBattle = false;
     public void EnterState() {
-        Debug.Log(("Enter select state"));
+        cardPickedForBattle = false;
         enabled = true;
     }
 
@@ -20,10 +19,9 @@ public class CardSelector : MonoBehaviour {
             if (Input.GetMouseButtonDown(0)) {
                 GameObject hitGo = hit.transform.gameObject;
                 if(hitGo.GetComponent<Card>() != null){
-                    Debug.Log("Clicked a card");
                     // todo check if is your own card
-                    if (GameManagement.instance.DoesCardBelongToPlayerHand(hitGo)) {
-                        Debug.Log("Clicked own card");
+                    if (!cardPickedForBattle && GameManagement.instance.DoesCardBelongToPlayerHand(hitGo)) {
+                        cardPickedForBattle = true;
                         ExitState(hitGo);
                     }
                 }
@@ -35,14 +33,17 @@ public class CardSelector : MonoBehaviour {
         if (GameManagement.instance.isBuryingCard) {
             GameManagement.instance.isBuryingCard = false;
             // TODO figure out how to pass which player.
-            GameManagement.instance.BuryCard(movingCard, false);
+            GameManagement.instance.BuryCard(movingCard, true);
+
+            GameManagement.instance.PickAiCard(true);
         }
         else {
             this.enabled = false;
             //TODO move the card to battle for the correct side.
-            GameManagement.instance.PlaceCard(movingCard, false);
+            GameManagement.instance.PlaceCard(movingCard, true);
+            GameObject opponentCard = GameManagement.instance.PickAiCard(false);
+            GameManagement.instance._battleState.EnterState(movingCard, opponentCard);
             
-            GameManagement.instance._battleState.EnterState(movingCard);
         }
     }
 }
