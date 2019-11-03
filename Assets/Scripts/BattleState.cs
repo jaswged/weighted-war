@@ -32,13 +32,13 @@ public class BattleState : MonoBehaviour {
         // TODO Find the winner. 
         Card aiCard = aiFieldCard.GetComponentInChildren<Card>();
         Card playerCard = playerFieldCard.GetComponentInChildren<Card>();
-        Debug.LogFormat("Player card: {0}, AI Card {1}", playerCard.value, aiCard.value);
+        Debug.LogFormat("Player card: {0}, AI Card {1}", playerCard.Value, aiCard.Value);
 
-        if (aiCard.value == playerCard.value) {
+        if (aiCard.Value == playerCard.Value) {
             Debug.LogError("WAR HAS BROKE OUT!!!!");
         }
         else {
-            var winner = aiCard.value > playerCard.value;
+            var winner = aiCard.Value > playerCard.Value;
             GameManagement.instance.IncrementRoundScore(winner);
         }
     }

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Card : MonoBehaviour {
+public class Card : MonoBehaviour{
     private GameObject _go;
-    public Suit suit;
-    public int value { get; set; }
-    private string name;
+    public Suit Suit;
+    public int Value;
+    public string Name;
     private Material frontFace;
     private Material backFace;
     
@@ -18,15 +18,15 @@ public class Card : MonoBehaviour {
             if (ReferenceEquals(x, null)) return false;
             if (ReferenceEquals(y, null)) return false;
             if (x.GetType() != y.GetType()) return false;
-            return Equals(x._go, y._go) && x.suit == y.suit && x.value == y.value && x.name == y.name && Equals(x.frontFace, y.frontFace) && Equals(x.backFace, y.backFace);
+            return Equals(x._go, y._go) && x.Suit == y.Suit && x.Value == y.Value && x.Name == y.Name && Equals(x.frontFace, y.frontFace) && Equals(x.backFace, y.backFace);
         }
 
         public int GetHashCode(Card obj) {
             unchecked {
                 var hashCode = (obj._go != null ? obj._go.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (int) obj.suit;
-                hashCode = (hashCode * 397) ^ obj.value;
-                hashCode = (hashCode * 397) ^ (obj.name != null ? obj.name.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int) obj.Suit;
+                hashCode = (hashCode * 397) ^ obj.Value;
+                hashCode = (hashCode * 397) ^ (obj.Name != null ? obj.Name.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (obj.frontFace != null ? obj.frontFace.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (obj.backFace != null ? obj.backFace.GetHashCode() : 0);
                 return hashCode;

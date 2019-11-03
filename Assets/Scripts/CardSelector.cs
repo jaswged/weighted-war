@@ -5,9 +5,9 @@ using UnityEngine;
 public class CardSelector : MonoBehaviour {
     public GameObject cardHighlightPrefab;
     public Material selectedMaterial;
-    private bool cardPickedForBattle = false;
+    private bool _cardPickedForBattle = false;
     public void EnterState() {
-        cardPickedForBattle = false;
+        _cardPickedForBattle = false;
         enabled = true;
     }
 
@@ -18,10 +18,10 @@ public class CardSelector : MonoBehaviour {
             // Did the user click
             if (Input.GetMouseButtonDown(0)) {
                 GameObject hitGo = hit.transform.gameObject;
-                if(hitGo.GetComponent<Card>() != null){
-                    // todo check if is your own card
-                    if (!cardPickedForBattle && GameManagement.instance.DoesCardBelongToPlayerHand(hitGo)) {
-                        cardPickedForBattle = true;
+                var cardComponent = hitGo.GetComponentInParent<Card>();
+                if(cardComponent != null){
+                    if (!_cardPickedForBattle && GameManagement.instance.DoesCardBelongToPlayerHand(cardComponent)) {
+                        _cardPickedForBattle = true;
                         ExitState(hitGo);
                     }
                 }

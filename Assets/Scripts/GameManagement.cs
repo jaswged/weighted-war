@@ -42,9 +42,10 @@ public class GameManagement : MonoBehaviour{
         return false;
     }
     
-    public bool DoesCardBelongToPlayerHand(GameObject cardClicked) {
+    public bool DoesCardBelongToPlayerHand(Card card) {
         // TODO get hand of current player
-        return _playMat.playerHand.hand.Contains(cardClicked.GetComponent<Card>());
+        Debug.Log("Does card belong to player: " );
+        return _playMat.playerHand.hand.Contains(card);
     }
 
     public void BuryCard(GameObject movingCard, bool isPlayer) {
