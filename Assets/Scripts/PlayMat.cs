@@ -133,6 +133,8 @@ public class PlayMat : MonoBehaviour {
         var handToRemoveFrom = isPlayer ? PlayerHand : AiHand;
 
         movingCard.transform.position = isPlayer ? playerWarCard.transform.position : aiWarCard.transform.position;
+        Debug.Log("cardPrefab.transform.rotation : " + cardPrefab.transform.rotation );
+        movingCard.transform.rotation = isPlayer ? Quaternion.Euler(180,0,0) : Quaternion.identity;
         movingCard.transform.parent = (isPlayer ? playerWarCard.transform : aiWarCard.transform);
 
         // TODO @Taylor rotate back to flat
