@@ -18,10 +18,13 @@ public class GameManagement : MonoBehaviour{
     
     int playerRoundCount;
     int aiRoundCount;
+    
+    AudioSource sound;
 
     void Awake() {
         instance = this;
         mainCamera = Camera.main;
+        sound = gameObject.GetComponent<AudioSource>();
     }
 
     void Start () {
@@ -49,12 +52,17 @@ public class GameManagement : MonoBehaviour{
     }
 
     public void BuryCard(GameObject movingCard, bool isPlayer) {
+        PlayCardSound();
         _playMat.BuryCard(movingCard, isPlayer);
     }
 
     public void PlaceCard(GameObject movingCard, bool isPlayer) {
-        Debug.Log("Place card");
+        PlayCardSound();
         _playMat.PlaceCard(movingCard, isPlayer);
+    }
+
+    private void PlayCardSound() {
+        sound.Play(0);
     }
 
     public void DiscardCard(GameObject card, bool isPlayer) {
