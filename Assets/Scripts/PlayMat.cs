@@ -102,7 +102,8 @@ public class PlayMat : MonoBehaviour {
         
         // TODO Move the cards to an iterative height
         for (var i = 0; i<deck.cards.Count; i++) {
-            deck.cards[i].GetGo().transform.position = new Vector3(0, i * .017f, 0);
+            deck.cards[i].GetGo().transform.position = new Vector3(0, i * .017f, 0) + deckGo.transform.position;
+            
         }
 
         return deck;
