@@ -48,8 +48,6 @@ public class GameManagement : MonoBehaviour{
     }
     
     public bool DoesCardBelongToPlayerHand(Card card) {
-        // TODO get hand of current player
-        Debug.Log("Does card belong to player: " );
         return _playMat.PlayerHand.hand.Contains(card);
     }
 
