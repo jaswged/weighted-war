@@ -97,29 +97,25 @@ public class PlayMat : MonoBehaviour {
         }
         
         deck.Shuffle();
-        
-        // TODO Move the cards to an iterative height
+        var deckPos = deckGo.transform.position;
         for (var i = 0; i<deck.cards.Count; i++) {
-            deck.cards[i].GetGo().transform.position = new Vector3(0, i * .017f, 0);
+            deck.cards[i].GetGo().transform.position = new Vector3(deckPos.x, deckPos.y + (i*.005f), deckPos.z);
         }
 
         return deck;
     }
 
     private void CreateCards(Suit suit, bool isPlayer, GameObject deckGo, Deck deck) {
-        Debug.Log("Create cards for suit" + suit);
+        var prefabRot = cardPrefab.transform.rotation;
         for (var i = 2; i <= 14; i++) {
-            string stringValue = "Prefabs/"+ suit +"_"+i;
-            Debug.Log("Suit as a string: " + stringValue);
-            
-            
-            var prefabToUse = Resources.Load<GameObject>(stringValue);
             var cardGo = GameObject.Instantiate(cardPrefab,
                 (isPlayer ? playerDeckPosition.transform.position : aiDeckPosition.transform.position),
-                cardPrefab.transform.rotation, deckGo.transform);
+                prefabRot, deckGo.transform);
             
             // Instantiate Model for Card
-            var model = Instantiate(prefabToUse, cardGo.transform.position, cardPrefab.transform.rotation * Quaternion.Euler(180,0,0), cardGo.transform);
+            var stringValue = "Prefabs/"+ suit + "_" + i;
+            var prefabToUse = Resources.Load<GameObject>(stringValue);
+            var model = Instantiate(prefabToUse, cardGo.transform.position, prefabRot * Quaternion.Euler(180,0,0), cardGo.transform);
 
             Card card = cardGo.GetComponent<Card>();
             card.Value = i;

@@ -18,9 +18,13 @@ public class CardSelector : MonoBehaviour {
         if (Physics.Raycast(ray, out hit)) {
             // Did the user click
             if (Input.GetMouseButtonDown(0)) {
+                Debug.Log("Mouse clicked");
                 GameObject hitGo = hit.transform.gameObject;
                 var cardComponent = hitGo.GetComponentInParent<Card>();
+                Debug.Log("Card comp: " + cardComponent);
+                Debug.Log(cardComponent);
                 if(cardComponent != null){
+                    Debug.Log("Clicked on a card");
                     if (!_cardPickedForBattle && GameManagement.Instance.DoesCardBelongToPlayerHand(cardComponent)) {
                         _cardPickedForBattle = true;
                         ExitState(hitGo);
