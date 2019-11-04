@@ -6,20 +6,17 @@ public class BattleState : MonoBehaviour {
     private GameObject playerCard;
     private GameObject opponentCard;
     [SerializeField]
-    private Material battleMaterial;
-    [SerializeField]
     private GameObject playerFieldCard;
     [SerializeField]
     private GameObject aiFieldCard;
     
     void Update(){
         // Battle Happens Here
-        //Fight();
-
         // Animations and results.
 
         if (Input.GetMouseButtonDown(1)) {
             // TODO Check if set win condition
+            //Fight();
             
             // TODO If war just happened pick new bury card and start set over.
             GameManagement.Instance.DiscardCard(opponentCard, false);
@@ -47,17 +44,9 @@ public class BattleState : MonoBehaviour {
         this.enabled = true;
         opponentCard = aiCard;
         this.playerCard = playCard;
-        
-        MeshRenderer renderers = playerCard.GetComponentInChildren<MeshRenderer>();
-        renderers.material = battleMaterial;
-        MeshRenderer renderersAi = aiCard.GetComponentInChildren<MeshRenderer>();
-        renderersAi.material = battleMaterial;
-        
-        Debug.Log("Time to do some combat yo!");
     }
 
     public void ExitState() {
-        Debug.Log("Exit battle state");
         this.enabled = false;
         GameManagement.Instance.CardSelector.EnterState();
     }

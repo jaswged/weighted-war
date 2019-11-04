@@ -159,6 +159,7 @@ public class PlayMat : MonoBehaviour {
 
         movingCard.transform.position =
             (isPlayer ? playerBattlePosition.transform.position : aiBattlePosition.transform.position);
+        movingCard.transform.rotation = isPlayer ? Quaternion.identity : Quaternion.Euler(180, 0, 0);
         movingCard.transform.parent = (isPlayer ? playerBattlePosition.transform : aiBattlePosition.transform);
 
         handToRemoveFrom.hand.Remove(card);

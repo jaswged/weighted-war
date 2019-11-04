@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardSelector : MonoBehaviour {
     public GameObject cardHighlightPrefab;
-    public Material selectedMaterial;
     private bool _cardPickedForBattle = false;
     
     public void EnterState() {
