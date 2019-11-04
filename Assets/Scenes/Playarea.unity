@@ -371,7 +371,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 80de67aea9af42b4494123397f795cf7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -744,6 +744,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7551814493961262261, guid: 21a3aecab0429fd40be2ce164af87746,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1915825109, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -775,6 +780,10 @@ PrefabInstance:
     - {fileID: 1915825112, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
     - {fileID: 1915825111, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
     - {fileID: 1915825110, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
+    - {fileID: 7551814493961262261, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
+    - {fileID: 7551814493961262260, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
+    - {fileID: 7551814493112625512, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
+    - {fileID: 7551814493112625515, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}
 --- !u!114 &1526718414 stripped
 MonoBehaviour:

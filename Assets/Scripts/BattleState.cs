@@ -22,8 +22,8 @@ public class BattleState : MonoBehaviour {
             // TODO Check if set win condition
             
             // TODO If war just happened pick new bury card and start set over.
-            GameManagement.instance.DiscardCard(opponentCard, false);
-            GameManagement.instance.DiscardCard(playerCard, true);
+            GameManagement.Instance.DiscardCard(opponentCard, false);
+            GameManagement.Instance.DiscardCard(playerCard, true);
             ExitState();
         }
     }
@@ -39,7 +39,7 @@ public class BattleState : MonoBehaviour {
         }
         else {
             var winner = aiCard.Value > playerCard.Value;
-            GameManagement.instance.IncrementRoundScore(winner);
+            GameManagement.Instance.IncrementRoundScore(winner);
         }
     }
 
@@ -59,6 +59,6 @@ public class BattleState : MonoBehaviour {
     public void ExitState() {
         Debug.Log("Exit battle state");
         this.enabled = false;
-        GameManagement.instance._cardSelector.EnterState();
+        GameManagement.Instance.CardSelector.EnterState();
     }
 }

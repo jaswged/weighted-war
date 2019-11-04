@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayMat : MonoBehaviour {
     [SerializeField] private GameObject cardPrefab;
@@ -17,13 +19,13 @@ public class PlayMat : MonoBehaviour {
     [SerializeField] private GameObject playerBattlePosition;
     [SerializeField] private GameObject aiDeckPosition;
     [SerializeField] private GameObject playerDeckPosition;
-
+    
     private Deck aiDeck { get; set; }
     private Deck playerDeck { get; set; }
 
-
-    public Hand aiHand;
-    public Hand playerHand;
+    private Hand AiHand;
+    [NonSerialized]
+    public Hand PlayerHand;
 
     private Card aiBuriedCard;
     private Card playerBuriedCard;
@@ -32,21 +34,15 @@ public class PlayMat : MonoBehaviour {
         aiDeck = SpawnDeck(false);
         playerDeck = SpawnDeck(true);
 
-        aiHand = SpawnHand(false);
-        playerHand = SpawnHand(true);
+        AiHand = SpawnHand(false);
+        PlayerHand = SpawnHand(true);
 
         DrawPlayerHand(true, true);
         DrawPlayerHand(false, true);
     }
 
-    void Start() {
-    }
-
-    void Update() {
-    }
-
     private void DrawPlayerHand(bool isPlayer, bool is6CardHand) {
-        var handToUse = isPlayer ? playerHand : aiHand;
+        var handToUse = isPlayer ? PlayerHand : AiHand;
         var deckToUse = isPlayer ? playerDeck : aiDeck;
         for (var i = handToUse.hand.Count; i < (is6CardHand ? 6 : 5); i++) {
             Card card = deckToUse.Draw();
@@ -55,24 +51,26 @@ public class PlayMat : MonoBehaviour {
             // Reparent the card under the hand object.
             GameObject go = card.GetGo();
             go.transform.parent = handToUse.go.transform;
-            go.transform.rotation = isPlayer ? Quaternion.Euler(-33.44f, 0f, 0f) : Quaternion.Euler(33.44f, 0f, 0f);
+            go.transform.rotation = isPlayer ? 
+                Quaternion.Euler(-133f, 0f, 0f) : 
+                Quaternion.Euler(133f, 0f, 0f);
 
             // TODO Taylor fix height problem
             go.transform.position = handToUse.go.transform.position +
                                     (isPlayer
                                         ? new Vector3(-1.9f + (i * .75f), 0, 0)
                                         : new Vector3(-1.9f + (i * .75f), 0, 0));
-//            go.transform.localScale -= new Vector3(.3f, .3f, 0);
         }
     }
 
     private Hand SpawnHand(bool isPlayer) {
         // Spawn Hand
         var handGo = Instantiate(handPrefab,
+            // TODO Should this have a spawn point instead of hard coded values? @Taylor
             (isPlayer ? new Vector3(1.85f, 3.6f, 7.35f) : new Vector3(1.8f, 3.5f, .17f)),
             Quaternion.identity, playMat.transform);
         handGo.name = isPlayer ? "PlayerHand" : "OpponentHand";
-        Hand hand = handGo.GetComponent<Hand>();
+        var hand = handGo.GetComponent<Hand>();
         hand.go = handGo;
 
         return hand;
@@ -90,12 +88,12 @@ public class PlayMat : MonoBehaviour {
         deck.go = deckGo;
         
         if (isPlayer) {
-            CreateCards(Suit.Spades, isPlayer, deckGo, deck);
-            CreateCards(Suit.Clubs, isPlayer, deckGo, deck); 
+            CreateCards(Suit.Spades, true, deckGo, deck);
+            CreateCards(Suit.Clubs, true, deckGo, deck); 
         }
         else {
-            CreateCards(Suit.Hearts, isPlayer, deckGo, deck);
-            CreateCards(Suit.Diamonds, isPlayer, deckGo, deck);  
+            CreateCards(Suit.Hearts, false, deckGo, deck);
+            CreateCards(Suit.Diamonds, false, deckGo, deck);  
         }
         
         deck.Shuffle();
@@ -109,12 +107,20 @@ public class PlayMat : MonoBehaviour {
     }
 
     private void CreateCards(Suit suit, bool isPlayer, GameObject deckGo, Deck deck) {
+        Debug.Log("Create cards for suit" + suit);
         for (var i = 2; i <= 14; i++) {
+            string stringValue = "Prefabs/"+ suit +"_"+i;
+            Debug.Log("Suit as a string: " + stringValue);
+            
+            
+            var prefabToUse = Resources.Load<GameObject>(stringValue);
             var cardGo = GameObject.Instantiate(cardPrefab,
-//                (isPlayer ? new Vector3(-1.891f, 2.904f - .3f, 7.281f) : new Vector3(3.87f, 0.1f - .3f, -3.8f)) +
-//                new Vector3(0, i * .05f, 0),
                 (isPlayer ? playerDeckPosition.transform.position : aiDeckPosition.transform.position),
                 cardPrefab.transform.rotation, deckGo.transform);
+            
+            // Instantiate Model for Card
+            var model = Instantiate(prefabToUse, cardGo.transform.position, cardPrefab.transform.rotation * Quaternion.Euler(180,0,0), cardGo.transform);
+
             Card card = cardGo.GetComponent<Card>();
             card.Value = i;
             card.name = i + " of " + card.Suit;
@@ -128,7 +134,7 @@ public class PlayMat : MonoBehaviour {
 
 
     public void BuryCard(GameObject movingCard, bool isPlayer) {
-        var handToRemoveFrom = isPlayer ? playerHand : aiHand;
+        var handToRemoveFrom = isPlayer ? PlayerHand : AiHand;
 
         movingCard.transform.position = isPlayer ? playerWarCard.transform.position : aiWarCard.transform.position;
         movingCard.transform.parent = (isPlayer ? playerWarCard.transform : aiWarCard.transform);
@@ -147,7 +153,7 @@ public class PlayMat : MonoBehaviour {
     }
 
     public void PlaceCard(GameObject movingCard, bool isPlayer) {
-        var handToRemoveFrom = isPlayer ? playerHand: aiHand;
+        var handToRemoveFrom = isPlayer ? PlayerHand: AiHand;
 
         var card = movingCard.GetComponent<Card>();
 
@@ -167,8 +173,8 @@ public class PlayMat : MonoBehaviour {
     }
 
     public GameObject PickAiCard(bool isWarCard) {
-        Debug.Log("Ai hand count: " + aiHand.hand.Count);
-        Card card = aiHand.hand[Random.Range(0, aiHand.hand.Count)];
+        Debug.Log("Ai hand count: " + AiHand.hand.Count);
+        Card card = AiHand.hand[Random.Range(0, AiHand.hand.Count)];
         if (isWarCard) {
             BuryCard(card.GetGo(), false);
         }

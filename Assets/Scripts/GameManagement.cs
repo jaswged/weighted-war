@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManagement : MonoBehaviour{
-    public static GameManagement instance;
-    private Camera mainCamera;
-    public CardSelector _cardSelector;
-    public BattleState _battleState;
+    public static GameManagement Instance;
+    private Camera _mainCamera;
+    [NonSerialized]
+    public CardSelector CardSelector;
+    [NonSerialized]
+    public BattleState BattleState;
 	
     private Player opponent;
     private Player player;
@@ -19,12 +21,12 @@ public class GameManagement : MonoBehaviour{
     int playerRoundCount;
     int aiRoundCount;
     
-    AudioSource sound;
+    AudioSource _sound;
 
     void Awake() {
-        instance = this;
-        mainCamera = Camera.main;
-        sound = gameObject.GetComponent<AudioSource>();
+        Instance = this;
+        _mainCamera = Camera.main;
+        _sound = gameObject.GetComponent<AudioSource>();
     }
 
     void Start () {
@@ -33,11 +35,11 @@ public class GameManagement : MonoBehaviour{
 
         _playMat.Initialize();
 
-        _cardSelector = GetComponent<CardSelector>();
-        _battleState = GetComponent<BattleState>();
+        CardSelector = GetComponent<CardSelector>();
+        BattleState = GetComponent<BattleState>();
 
-        _battleState.enabled = false;
-        _cardSelector.enabled = true;
+        BattleState.enabled = false;
+        CardSelector.enabled = true;
         isBuryingCard = true;
     }
 
@@ -48,7 +50,7 @@ public class GameManagement : MonoBehaviour{
     public bool DoesCardBelongToPlayerHand(Card card) {
         // TODO get hand of current player
         Debug.Log("Does card belong to player: " );
-        return _playMat.playerHand.hand.Contains(card);
+        return _playMat.PlayerHand.hand.Contains(card);
     }
 
     public void BuryCard(GameObject movingCard, bool isPlayer) {
@@ -62,7 +64,7 @@ public class GameManagement : MonoBehaviour{
     }
 
     private void PlayCardSound() {
-        sound.Play(0);
+        _sound.Play(0);
     }
 
     public void DiscardCard(GameObject card, bool isPlayer) {

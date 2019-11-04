@@ -21,7 +21,7 @@ public class CardSelector : MonoBehaviour {
                 GameObject hitGo = hit.transform.gameObject;
                 var cardComponent = hitGo.GetComponentInParent<Card>();
                 if(cardComponent != null){
-                    if (!_cardPickedForBattle && GameManagement.instance.DoesCardBelongToPlayerHand(cardComponent)) {
+                    if (!_cardPickedForBattle && GameManagement.Instance.DoesCardBelongToPlayerHand(cardComponent)) {
                         _cardPickedForBattle = true;
                         ExitState(hitGo);
                     }
@@ -31,19 +31,19 @@ public class CardSelector : MonoBehaviour {
     }
     
     private void ExitState(GameObject movingCard) {
-        if (GameManagement.instance.isBuryingCard) {
-            GameManagement.instance.isBuryingCard = false;
+        if (GameManagement.Instance.isBuryingCard) {
+            GameManagement.Instance.isBuryingCard = false;
             // TODO figure out how to pass which player.
-            GameManagement.instance.BuryCard(movingCard, true);
+            GameManagement.Instance.BuryCard(movingCard, true);
 
-            GameManagement.instance.PickAiCard(true);
+            GameManagement.Instance.PickAiCard(true);
         }
         else {
             this.enabled = false;
             //TODO move the card to battle for the correct side.
-            GameManagement.instance.PlaceCard(movingCard, true);
-            GameObject opponentCard = GameManagement.instance.PickAiCard(false);
-            GameManagement.instance._battleState.EnterState(movingCard, opponentCard);
+            GameManagement.Instance.PlaceCard(movingCard, true);
+            GameObject opponentCard = GameManagement.Instance.PickAiCard(false);
+            GameManagement.Instance.BattleState.EnterState(movingCard, opponentCard);
             
         }
     }
