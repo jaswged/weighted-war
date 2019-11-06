@@ -5,19 +5,19 @@ using UnityEngine;
 public class BattleState : MonoBehaviour {
     private GameObject playerCard;
     private GameObject opponentCard;
-    [SerializeField]
-    private GameObject playerFieldCard;
-    [SerializeField]
-    private GameObject aiFieldCard;
-    
-    void Update(){
+    [SerializeField] private GameObject playerFieldCard;
+    [SerializeField] private GameObject aiFieldCard;
+
+    void Update() {
         // Battle Happens Here
         // Animations and results.
 
         if (Input.GetMouseButtonDown(1)) {
             // TODO Check if set win condition
-            //Fight();
-            
+//            Card thePlayerCard = playerFieldCard.GetComponentInChildren<Card>();
+//            Debug.LogFormat("Player card: {0}", thePlayerCard.Value);
+//            Fight();
+
             // TODO If war just happened pick new bury card and start set over.
             GameManagement.Instance.DiscardCard(opponentCard, false);
             GameManagement.Instance.DiscardCard(playerCard, true);
@@ -28,15 +28,23 @@ public class BattleState : MonoBehaviour {
     private void Fight() {
         // TODO Find the winner. 
         Card aiCard = aiFieldCard.GetComponentInChildren<Card>();
-        Card playerCard = playerFieldCard.GetComponentInChildren<Card>();
-        Debug.LogFormat("Player card: {0}, AI Card {1}", playerCard.Value, aiCard.Value);
+        Debug.LogFormat("AI Card {0}", aiCard.Value);
+        Card thePlayerCard = playerFieldCard.GetComponentInChildren<Card>();
+        Debug.LogFormat("Player card: {0}", thePlayerCard.Value);
 
-        if (aiCard.Value == playerCard.Value) {
+        if (aiCard.Value == thePlayerCard.Value) {
             Debug.LogError("WAR HAS BROKE OUT!!!!");
         }
         else {
-            var winner = aiCard.Value > playerCard.Value;
-            GameManagement.Instance.IncrementRoundScore(winner);
+            var winner = aiCard.Value > thePlayerCard.Value;
+            if (winner) {
+                Debug.Log("THE AI WINS");
+            }
+            else {
+                Debug.Log("THE HUMAN WINS");
+            }
+
+//            GameManagement.Instance.IncrementRoundScore(winner);
         }
     }
 

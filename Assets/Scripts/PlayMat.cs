@@ -165,10 +165,10 @@ public class PlayMat : MonoBehaviour {
         handToRemoveFrom.hand.Remove(card);
     }
 
-    public void DiscardCard(GameObject blackCard, bool isPlayer) {
-        var graveToUse = isPlayer ?playerGraveyard : aiGraveyard  ;
-        blackCard.transform.position = graveToUse.transform.position;
-        blackCard.transform.parent = graveToUse.transform;
+    public void DiscardCard(GameObject card, bool isPlayer) {
+        var graveToUse = isPlayer ? playerGraveyard : aiGraveyard;
+        card.transform.position = graveToUse.transform.position;
+        card.transform.parent = graveToUse.transform;
     }
 
     public GameObject PickAiCard(bool isWarCard) {
