@@ -24,8 +24,7 @@ public class PlayMat : MonoBehaviour {
     private Deck playerDeck { get; set; }
 
     private Hand AiHand;
-    [NonSerialized]
-    public Hand PlayerHand;
+    [NonSerialized] public Hand PlayerHand;
 
     private Card aiBuriedCard;
     private Card playerBuriedCard;
@@ -83,7 +82,7 @@ public class PlayMat : MonoBehaviour {
             (isPlayer ? playerDeckPosition.transform : aiDeckPosition.transform));
 
         deckGo.name = isPlayer ? "PlayerDeck" : "OpponentDeck";
-        Deck deck = deckGo.GetComponent<Deck>();
+        var deck = deckGo.GetComponent<Deck>();
         deck.IsPlayer = isPlayer;
         deck.go = deckGo;
         
@@ -117,7 +116,7 @@ public class PlayMat : MonoBehaviour {
             var prefabToUse = Resources.Load<GameObject>(stringValue);
             var model = Instantiate(prefabToUse, cardGo.transform.position, prefabRot * Quaternion.Euler(180,0,0), cardGo.transform);
 
-            Card card = cardGo.GetComponent<Card>();
+            var card = cardGo.GetComponent<Card>();
             card.Value = i;
             card.name = i + " of " + card.Suit;
             card.Suit = suit;
@@ -133,11 +132,8 @@ public class PlayMat : MonoBehaviour {
         var handToRemoveFrom = isPlayer ? PlayerHand : AiHand;
 
         movingCard.transform.position = isPlayer ? playerWarCard.transform.position : aiWarCard.transform.position;
-        Debug.Log("cardPrefab.transform.rotation : " + cardPrefab.transform.rotation );
         movingCard.transform.rotation = isPlayer ? Quaternion.Euler(180,0,0) : Quaternion.identity;
         movingCard.transform.parent = (isPlayer ? playerWarCard.transform : aiWarCard.transform);
-
-        // TODO @Taylor rotate back to flat
 
         var card = movingCard.GetComponent<Card>();
         if (isPlayer) {
@@ -155,11 +151,9 @@ public class PlayMat : MonoBehaviour {
 
         var card = movingCard.GetComponent<Card>();
 
-        // TODO @Taylor rotate back to flat
-
         movingCard.transform.position =
             (isPlayer ? playerBattlePosition.transform.position : aiBattlePosition.transform.position);
-        movingCard.transform.rotation = isPlayer ? Quaternion.identity : Quaternion.Euler(180, 0, 0);
+        movingCard.transform.rotation = Quaternion.Euler(180, 0, 0);
         movingCard.transform.parent = (isPlayer ? playerBattlePosition.transform : aiBattlePosition.transform);
 
         handToRemoveFrom.hand.Remove(card);
@@ -172,8 +166,7 @@ public class PlayMat : MonoBehaviour {
     }
 
     public GameObject PickAiCard(bool isWarCard) {
-        Debug.Log("Ai hand count: " + AiHand.hand.Count);
-        Card card = AiHand.hand[Random.Range(0, AiHand.hand.Count)];
+        var card = AiHand.hand[Random.Range(0, AiHand.hand.Count)];
         if (isWarCard) {
             BuryCard(card.GetGo(), false);
         }

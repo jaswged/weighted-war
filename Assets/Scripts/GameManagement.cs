@@ -2,24 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManagement : MonoBehaviour{
     public static GameManagement Instance;
     private Camera _mainCamera;
-    [NonSerialized]
-    public CardSelector CardSelector;
-    [NonSerialized]
-    public BattleState BattleState;
-	
+    [NonSerialized] public CardSelector CardSelector;
+    [NonSerialized] public BattleState BattleState;
+    [SerializeField] private PlayMat _playMat;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Text opponentSetsText;
+    [SerializeField] private Text playerSetsText;
+    
     private Player opponent;
     private Player player;
-    [SerializeField]
-    private PlayMat _playMat;
-
+    private string _scoreText = "     0 : 0";
+    
     public bool isBuryingCard;
     
-    int playerRoundCount;
-    int aiRoundCount;
+    private int _playerRoundCount;
+    private int _aiRoundCount;
+    private int _playerSetCount;
+    private int _aiSetCount;
+    
     
     AudioSource _sound;
 
@@ -41,6 +46,13 @@ public class GameManagement : MonoBehaviour{
         BattleState.enabled = false;
         CardSelector.enabled = true;
         isBuryingCard = true;
+    }
+
+    void Update() {
+        // TODO Show accurate scores for current round and sets.
+        scoreText.text = _scoreText;
+        opponentSetsText.text = _aiSetCount.ToString();
+        playerSetsText.text = _playerSetCount.ToString();
     }
 
     public bool HasAPlayerWonASet() {
@@ -69,8 +81,27 @@ public class GameManagement : MonoBehaviour{
         _playMat.DiscardCard(card, isPlayer);
     }
 
-    public void IncrementRoundScore(bool winner) {
-        var asdf = winner ? playerRoundCount : aiRoundCount;
+    public void IncrementRoundScore(bool winnerIsPlayer, bool hasWarHappened) {
+        Debug.Log(winnerIsPlayer ? "Player won the bout" : "Opponent won the bout");
+        
+        // TODO check if war happened and make that player the winner of the whole set!
+        if (hasWarHappened) {
+            Debug.Log("War has happened " + winnerIsPlayer + " wins the whole set");
+            if (winnerIsPlayer) {
+                _playerSetCount++;
+            }
+            else {
+                _aiSetCount++;  
+            }
+            
+            // TODO Check that the Game isn't over now. Perhaps put this in a method for when a set has been won.
+            // TODO Make a reset method to reset everything for the next set
+        }
+        // Check if 3/5 has been won for the set yet!
+        var gameOver = winnerIsPlayer ? _playerRoundCount++ : _aiRoundCount++;
+        
+        // TODO Update the text string with actual round values.
+        _scoreText = string.Format("     {0} : {1}", _aiRoundCount, _playerRoundCount);
     }
 
     public GameObject PickAiCard(bool isWarCard) {

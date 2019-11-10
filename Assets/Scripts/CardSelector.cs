@@ -17,7 +17,7 @@ public class CardSelector : MonoBehaviour {
         if (Physics.Raycast(ray, out hit)) {
             // Did the user click
             if (Input.GetMouseButtonDown(0)) {
-                GameObject hitGo = hit.transform.gameObject;
+                GameObject hitGo = hit.transform.parent.gameObject;
                 var cardComponent = hitGo.GetComponentInParent<Card>();
                 if(cardComponent != null){
                     if (!_cardPickedForBattle && GameManagement.Instance.DoesCardBelongToPlayerHand(cardComponent)) {
@@ -32,14 +32,12 @@ public class CardSelector : MonoBehaviour {
     private void ExitState(GameObject movingCard) {
         if (GameManagement.Instance.isBuryingCard) {
             GameManagement.Instance.isBuryingCard = false;
-            // TODO figure out how to pass which player.
             GameManagement.Instance.BuryCard(movingCard, true);
 
             GameManagement.Instance.PickAiCard(true);
         }
         else {
             this.enabled = false;
-            //TODO move the card to battle for the correct side.
             GameManagement.Instance.PlaceCard(movingCard, true);
             GameObject opponentCard = GameManagement.Instance.PickAiCard(false);
             GameManagement.Instance.BattleState.EnterState(movingCard, opponentCard);
