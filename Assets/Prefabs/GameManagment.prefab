@@ -47,6 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playMat: {fileID: 0}
+  scoreText: {fileID: 0}
+  opponentSetsText: {fileID: 0}
+  playerSetsText: {fileID: 0}
   isBuryingCard: 0
 --- !u!114 &8719726954621857862
 MonoBehaviour:
@@ -61,7 +64,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardHighlightPrefab: {fileID: 0}
-  selectedMaterial: {fileID: 2100000, guid: 1da528980dafee44282979c75ca56594, type: 2}
 --- !u!114 &8719726954621857863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,9 +76,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad43347458549c45a3efffa6cda1ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleMaterial: {fileID: 2100000, guid: 1da528980dafee44282979c75ca56594, type: 2}
   playerFieldCard: {fileID: 0}
   aiFieldCard: {fileID: 0}
+  opponentWarCard: {fileID: 0}
+  playerWarCard: {fileID: 0}
 --- !u!82 &1418976988
 AudioSource:
   m_ObjectHideFlags: 0

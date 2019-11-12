@@ -28,9 +28,6 @@ public class BattleState : MonoBehaviour {
     }
 
     private void Fight() {
-        Debug.Log("Battle happens now!");
-        
-        // TODO Find the winner. 
         Card aiCard = aiFieldCard.GetComponentInChildren<Card>();
         Card playerCard = playerFieldCard.GetComponentInChildren<Card>();
         Debug.LogFormat("Player card: {0}, AI Card {1}", playerCard, aiCard);

@@ -93,15 +93,28 @@ public class GameManagement : MonoBehaviour{
             else {
                 _aiSetCount++;  
             }
-            
+
+            var gameOver = false;
             // TODO Check that the Game isn't over now. Perhaps put this in a method for when a set has been won.
-            // TODO Make a reset method to reset everything for the next set
+            if (gameOver) {
+                
+            }
+            else {
+                // TODO Make a reset method to reset everything for the next set
+            }
         }
-        // Check if 3/5 has been won for the set yet!
-        var gameOver = winnerIsPlayer ? _playerRoundCount++ : _aiRoundCount++;
         
-        // TODO Update the text string with actual round values.
-        _scoreText = string.Format("     {0} : {1}", _aiRoundCount, _playerRoundCount);
+        var temp = winnerIsPlayer ? _playerRoundCount++ : _aiRoundCount++;
+        _scoreText = $"     {_aiRoundCount} : {_playerRoundCount}";
+        Debug.Log($"Print out round counts     {_aiRoundCount} : {_playerRoundCount}");  
+        
+        // TODO Check that the set hasn't been won
+        // Check if 3/5 has been won for the set yet!
+        if (_playerRoundCount == 3 || _aiRoundCount == 3) {
+            Debug.Log($"The set is over! {winnerIsPlayer} has won the SET!");
+            
+            //TODO Call the set Reset Method if game isn't over. Just like above
+        }
     }
 
     public GameObject PickAiCard(bool isWarCard) {

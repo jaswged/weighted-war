@@ -1125,6 +1125,16 @@ PrefabInstance:
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 559375246}
+    - target: {fileID: 8719726954621857881, guid: b5556cd27513ff14ba7d1367686226b0,
+        type: 3}
+      propertyPath: opponentSetsText
+      value: 
+      objectReference: {fileID: 282014277}
+    - target: {fileID: 8719726954621857881, guid: b5556cd27513ff14ba7d1367686226b0,
+        type: 3}
+      propertyPath: playerSetsText
+      value: 
+      objectReference: {fileID: 656292629}
     - target: {fileID: 8719726954621857863, guid: b5556cd27513ff14ba7d1367686226b0,
         type: 3}
       propertyPath: playerFieldCard
@@ -1137,14 +1147,14 @@ PrefabInstance:
       objectReference: {fileID: 966762453}
     - target: {fileID: 8719726954621857863, guid: b5556cd27513ff14ba7d1367686226b0,
         type: 3}
-      propertyPath: playerWarCard
-      value: 
-      objectReference: {fileID: 795820995}
-    - target: {fileID: 8719726954621857863, guid: b5556cd27513ff14ba7d1367686226b0,
-        type: 3}
       propertyPath: opponentWarCard
       value: 
       objectReference: {fileID: 295527248}
+    - target: {fileID: 8719726954621857863, guid: b5556cd27513ff14ba7d1367686226b0,
+        type: 3}
+      propertyPath: playerWarCard
+      value: 
+      objectReference: {fileID: 795820995}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5556cd27513ff14ba7d1367686226b0, type: 3}
 --- !u!1 &1507341911
@@ -1290,6 +1300,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7551814492975268608, guid: 21a3aecab0429fd40be2ce164af87746,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7551814492975268608, guid: 21a3aecab0429fd40be2ce164af87746,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7551814493013358631, guid: 21a3aecab0429fd40be2ce164af87746,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.6220703
+      objectReference: {fileID: 0}
+    - target: {fileID: 7551814493013358631, guid: 21a3aecab0429fd40be2ce164af87746,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.765
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21a3aecab0429fd40be2ce164af87746, type: 3}

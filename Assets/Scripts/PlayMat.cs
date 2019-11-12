@@ -132,7 +132,7 @@ public class PlayMat : MonoBehaviour {
         var handToRemoveFrom = isPlayer ? PlayerHand : AiHand;
 
         movingCard.transform.position = isPlayer ? playerWarCard.transform.position : aiWarCard.transform.position;
-        movingCard.transform.rotation = isPlayer ? Quaternion.Euler(180,0,0) : Quaternion.identity;
+        movingCard.transform.rotation = isPlayer ? Quaternion.Euler(180,0,180) : Quaternion.identity;
         movingCard.transform.parent = (isPlayer ? playerWarCard.transform : aiWarCard.transform);
 
         var card = movingCard.GetComponent<Card>();
