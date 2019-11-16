@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,6 +16,8 @@ public class PlayMat : MonoBehaviour {
     [SerializeField] private GameObject playerBattlePosition;
     [SerializeField] private GameObject aiDeckPosition;
     [SerializeField] private GameObject playerDeckPosition;
+    [SerializeField] private GameObject aiHandPosition;
+    [SerializeField] private GameObject playerHandPosition;
     
     private Deck aiDeck { get; set; }
     private Deck playerDeck { get; set; }
@@ -39,8 +38,9 @@ public class PlayMat : MonoBehaviour {
         DrawPlayerHand(true, true);
         DrawPlayerHand(false, true);
     }
-
-    private void DrawPlayerHand(bool isPlayer, bool is6CardHand) {
+    
+    public void DrawPlayerHand(bool isPlayer, bool is6CardHand) {
+        //TODO Draw cards not on top of each other
         var handToUse = isPlayer ? PlayerHand : AiHand;
         var deckToUse = isPlayer ? playerDeck : aiDeck;
         for (var i = handToUse.hand.Count; i < (is6CardHand ? 6 : 5); i++) {
@@ -55,10 +55,7 @@ public class PlayMat : MonoBehaviour {
                 Quaternion.Euler(133f, 0f, 0f);
 
             // TODO Taylor fix height problem
-            go.transform.position = handToUse.go.transform.position +
-                                    (isPlayer
-                                        ? new Vector3(-1.9f + (i * .75f), 0, 0)
-                                        : new Vector3(-1.9f + (i * .75f), 0, 0));
+            go.transform.position = handToUse.go.transform.position + new Vector3(-1.9f + (i * .75f), 0, 0);
         }
     }
 
@@ -117,7 +114,7 @@ public class PlayMat : MonoBehaviour {
             var model = Instantiate(prefabToUse, cardGo.transform.position, prefabRot * Quaternion.Euler(180,0,0), cardGo.transform);
 
             var card = cardGo.GetComponent<Card>();
-            card.Value = i;
+            card.Value = i; 
             card.name = i + " of " + card.Suit;
             card.Suit = suit;
             card.SetGo(cardGo);
@@ -126,7 +123,6 @@ public class PlayMat : MonoBehaviour {
             deck.AddCard(card);
         }
     }
-
 
     public void BuryCard(GameObject movingCard, bool isPlayer) {
         var handToRemoveFrom = isPlayer ? PlayerHand : AiHand;
@@ -146,23 +142,31 @@ public class PlayMat : MonoBehaviour {
         handToRemoveFrom.hand.Remove(card);
     }
 
-    public void PlaceCard(GameObject movingCard, bool isPlayer) {
-        var handToRemoveFrom = isPlayer ? PlayerHand: AiHand;
-
-        var card = movingCard.GetComponent<Card>();
-
+    public void PlaceCard(GameObject movingCard, bool isPlayer, bool isWarCard) {
+        if (isWarCard) {
+            Debug.Log("Is place war car");
+            //#warning do i need to explicitly remove the war card?
+            DiscardCard(isPlayer ? playerBattlePosition.transform.GetChild(0).gameObject 
+                                 : aiBattlePosition.transform.GetChild(0).gameObject, isPlayer);
+        }
+        else {
+            Debug.Log("Remove card from hand.");
+            var card = movingCard.GetComponent<Card>();
+            var handToRemoveFrom = isPlayer ? PlayerHand: AiHand;
+            handToRemoveFrom.hand.Remove(card);
+        }
+        
         movingCard.transform.position =
             (isPlayer ? playerBattlePosition.transform.position : aiBattlePosition.transform.position);
         movingCard.transform.rotation = Quaternion.Euler(180, 0, 0);
         movingCard.transform.parent = (isPlayer ? playerBattlePosition.transform : aiBattlePosition.transform);
-
-        handToRemoveFrom.hand.Remove(card);
     }
 
-    public void DiscardCard(GameObject blackCard, bool isPlayer) {
-        var graveToUse = isPlayer ?playerGraveyard : aiGraveyard  ;
-        blackCard.transform.position = graveToUse.transform.position;
-        blackCard.transform.parent = graveToUse.transform;
+    public void DiscardCard(GameObject discardCard, bool isPlayer) {
+        var graveToUse = isPlayer ? playerGraveyard : aiGraveyard;
+        var discardCardTransform = discardCard.transform;
+        discardCardTransform.position = graveToUse.transform.position;
+        discardCardTransform.parent = graveToUse.transform;
     }
 
     public GameObject PickAiCard(bool isWarCard) {
@@ -171,9 +175,26 @@ public class PlayMat : MonoBehaviour {
             BuryCard(card.GetGo(), false);
         }
         else {
-            PlaceCard(card.GetGo(), false);
+            PlaceCard(card.GetGo(), false, false);
         }
 
         return card.GetGo();
+    }
+
+    public void MoveWarCardsIntoBattle(Card playerCard, Card aiCard) {
+        #warning Move the war cards
+        PlaceCard(playerCard.GetGo(), true, true);
+        PlaceCard(aiCard.GetGo(), false, true);
+    }
+    
+    public void RearrangeHands() {
+        //AiHand
+        foreach (var card in AiHand.hand) {
+            card.gameObject.transform.position = AiHand.go.transform.position + new Vector3(-1.9f, 0, 0);
+        }
+        
+        foreach (var card in PlayerHand.hand) {
+            card.transform.position = PlayerHand.go.transform.position + new Vector3(-1.9f, 0, 0);
+        }
     }
 }

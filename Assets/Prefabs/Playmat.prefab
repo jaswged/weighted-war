@@ -129,6 +129,8 @@ MonoBehaviour:
   playerBattlePosition: {fileID: 7551814492558189584}
   aiDeckPosition: {fileID: 1915825108}
   playerDeckPosition: {fileID: 299553766}
+  aiHandPosition: {fileID: 7551814493961262262}
+  playerHandPosition: {fileID: 7551814493112625509}
 --- !u!1 &7551814492401854329
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardHighlightPrefab: {fileID: 0}
+  _cardPickedForBattle: 0
 --- !u!1 &7551814492558189584
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7551814492975268611}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.6220703, y: 2.728858, z: 6.765}
+  m_LocalPosition: {x: -1.9, y: 2.728858, z: 0}
   m_LocalScale: {x: 0.1, y: 0.37, z: 0.15}
   m_Children: []
   m_Father: {fileID: 6157275585161007132}
@@ -449,7 +452,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7551814493013358630}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.8679295, y: 2.728858, z: 0.6815369}
+  m_LocalPosition: {x: 5.6220703, y: 2.728858, z: 6.765}
   m_LocalScale: {x: 0.1, y: 0.37, z: 0.15}
   m_Children: []
   m_Father: {fileID: 6157275585161007132}

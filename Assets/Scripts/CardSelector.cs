@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CardSelector : MonoBehaviour {
     public GameObject cardHighlightPrefab;
-    private bool _cardPickedForBattle = false;
+    public bool _cardPickedForBattle = false;
     
     public void EnterState() {
         _cardPickedForBattle = false;
@@ -35,13 +33,15 @@ public class CardSelector : MonoBehaviour {
             GameManagement.Instance.BuryCard(movingCard, true);
 
             GameManagement.Instance.PickAiCard(true);
+            _cardPickedForBattle = false;
+            //GameManagement.Instance.RearrangeHands();
         }
         else {
             this.enabled = false;
             GameManagement.Instance.PlaceCard(movingCard, true);
             GameObject opponentCard = GameManagement.Instance.PickAiCard(false);
+            //GameManagement.Instance.RearrangeHands();
             GameManagement.Instance.BattleState.EnterState(movingCard, opponentCard);
-            
         }
     }
 }
