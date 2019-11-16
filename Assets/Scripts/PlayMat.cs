@@ -55,20 +55,19 @@ public class PlayMat : MonoBehaviour {
             go.transform.rotation = isPlayer ? 
                 Quaternion.Euler(-133f, 0f, 0f) : 
                 Quaternion.Euler(133f, 0f, 0f);
-
-            // TODO Taylor fix height problem
-//            go.transform.position = handToUse.go.transform.position + new Vector3(-1.9f + (i * .75f), 0, 0);
         }
     }
 
     private Hand SpawnHand(bool isPlayer) {
         // Spawn Hand
         var handGo = Instantiate(handPrefab,
+
             // TODO Should this have a spawn point instead of hard coded values? @Taylor
-            //(isPlayer ? new Vector3(1.85f, 3.6f, 7.35f) : new Vector3(1.8f, 3.5f, .17f)),
-            (isPlayer ? playerHandPosition.transform.position: aiHandPosition.transform.position),
-            Quaternion.identity, 
-            (isPlayer ? playerHandPosition.transform: aiHandPosition.transform));
+            (isPlayer ? new Vector3(1.85f, 3.6f, 7.35f) : new Vector3(1.8f, 3.5f, .17f)),
+
+            //(isPlayer ? playerHandPosition.transform.position: aiHandPosition.transform.position),
+            Quaternion.identity, playMat.transform);
+            //(isPlayer ? playerHandPosition.transform: aiHandPosition.transform));
         handGo.name = isPlayer ? "PlayerHand" : "OpponentHand";
         var hand = handGo.GetComponent<Hand>();
         hand.go = handGo;
@@ -193,11 +192,8 @@ public class PlayMat : MonoBehaviour {
     
     public void RearrangeHands() {
         for (var i = 0; i < PlayerHand.hand.Count; i++) {
-            PlayerHand.hand[i].gameObject.transform.position = playerHandPosition.transform.position + new Vector3(-1.9f + (i * .75f), 0, 0);
-        }
-        
-        for (var i = 0; i < AiHand.hand.Count; i++) {
-            AiHand.hand[i].gameObject.transform.position = aiHandPosition.transform.position + new Vector3(-1.9f + (i * .75f), 0, 0);
+            PlayerHand.hand[i].gameObject.transform.position = playerHandPosition.transform.position + new Vector3(-1.9f + (i * .96f), 0, 0);
+            AiHand.hand[i].gameObject.transform.position = aiHandPosition.transform.position + new Vector3(-1.9f + (i * .96f), 0, 0);
         }
     }
 }

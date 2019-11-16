@@ -146,6 +146,8 @@ public class GameManagement : MonoBehaviour{
         // Reset the hands.
         _playMat.DrawPlayerHand(true, isBuryingCard);
         _playMat.DrawPlayerHand(false, isBuryingCard);
+
+        _playMat.RearrangeHands();
     }
 
     public GameObject PickAiCard(bool isWarCard) {

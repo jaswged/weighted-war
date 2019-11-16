@@ -50,6 +50,7 @@ MonoBehaviour:
   scoreText: {fileID: 0}
   opponentSetsText: {fileID: 0}
   playerSetsText: {fileID: 0}
+  gameOverText: {fileID: 0}
   isBuryingCard: 0
 --- !u!114 &8719726954621857862
 MonoBehaviour:
@@ -64,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardHighlightPrefab: {fileID: 0}
+  _cardPickedForBattle: 0
 --- !u!114 &8719726954621857863
 MonoBehaviour:
   m_ObjectHideFlags: 0
