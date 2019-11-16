@@ -129,8 +129,8 @@ MonoBehaviour:
   playerBattlePosition: {fileID: 7551814492558189584}
   aiDeckPosition: {fileID: 1915825108}
   playerDeckPosition: {fileID: 299553766}
-  aiHandPosition: {fileID: 7551814493961262262}
-  playerHandPosition: {fileID: 7551814493112625509}
+  aiHandPosition: {fileID: 7551814493112625509}
+  playerHandPosition: {fileID: 7551814493961262262}
 --- !u!1 &7551814492401854329
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +529,7 @@ GameObject:
   - component: {fileID: 7551814493112625514}
   - component: {fileID: 7551814493112625513}
   m_Layer: 0
-  m_Name: PlayerHand
+  m_Name: OpponentHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -544,7 +544,7 @@ Transform:
   m_GameObject: {fileID: 7551814493112625509}
   m_LocalRotation: {x: 0.28769484, y: -0, z: -0, w: 0.9577222}
   m_LocalPosition: {x: 1.8020706, y: 3.208858, z: 0.12153673}
-  m_LocalScale: {x: 4.26, y: 1.31, z: 0.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6157275585161007132}
   m_RootOrder: 3
@@ -847,7 +847,7 @@ GameObject:
   - component: {fileID: 7551814493961262263}
   - component: {fileID: 7551814493961262266}
   m_Layer: 0
-  m_Name: OpponentHand
+  m_Name: PlayerHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,7 +862,7 @@ Transform:
   m_GameObject: {fileID: 7551814493961262262}
   m_LocalRotation: {x: -0.28769484, y: -0, z: -0, w: 0.9577222}
   m_LocalPosition: {x: 1.8020706, y: 3.508858, z: 7.271537}
-  m_LocalScale: {x: 4.26, y: 1.31, z: 0.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6157275585161007132}
   m_RootOrder: 4

@@ -78,6 +78,7 @@ public class BattleState : MonoBehaviour {
 
     public void EnterState(GameObject playCard, GameObject aiCard) {
         this.enabled = true;
+        GameManagement.Instance.CardSelector.ExitState();
         _opponentCard = aiCard;
         _playerCard = playCard;
     }

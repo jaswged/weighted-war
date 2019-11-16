@@ -37,11 +37,16 @@ public class CardSelector : MonoBehaviour {
             //GameManagement.Instance.RearrangeHands();
         }
         else {
-            this.enabled = false;
+            enabled = false;
+            _cardPickedForBattle = true;
             GameManagement.Instance.PlaceCard(movingCard, true);
             GameObject opponentCard = GameManagement.Instance.PickAiCard(false);
             //GameManagement.Instance.RearrangeHands();
             GameManagement.Instance.BattleState.EnterState(movingCard, opponentCard);
         }
+    }
+
+    public void ExitState() {
+        enabled = false;
     }
 }
