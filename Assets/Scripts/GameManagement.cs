@@ -12,6 +12,7 @@ public class GameManagement : MonoBehaviour{
     [SerializeField] private Text opponentSetsText;
     [SerializeField] private Text playerSetsText;
     [SerializeField] private Text gameOverText;
+    [SerializeField] private Button playAgainBtn;
     
     private Player opponent;
     private Player player;
@@ -34,6 +35,7 @@ public class GameManagement : MonoBehaviour{
         _sound = gameObject.GetComponent<AudioSource>();
         
         gameOverText.enabled = false;
+        playAgainBtn.enabled = false;
     }
 
     private void Start () {
@@ -58,6 +60,7 @@ public class GameManagement : MonoBehaviour{
         if (!isGameOver) return;
         
         gameOverText.enabled = true;
+        playAgainBtn.enabled = true;
         CardSelector.enabled = false;
         BattleState.enabled = false;
     }
@@ -83,8 +86,6 @@ public class GameManagement : MonoBehaviour{
     public void DiscardCard(GameObject card, bool isPlayer) {
         _playMat.DiscardCard(card, isPlayer);
     }
-    
-    
 
     public void IncrementRoundScore(bool winnerIsPlayer, bool hasWarHappened) {
         Debug.Log(winnerIsPlayer ? "Player won the bout" : "Opponent won the bout");
@@ -122,7 +123,6 @@ public class GameManagement : MonoBehaviour{
         }
 
         if (!GameOver()) {
-            //TODO Call the set Reset Method if game isn't over. Just like above
             ResetMatch(false);
         }
     }
@@ -160,5 +160,16 @@ public class GameManagement : MonoBehaviour{
 
     public void RearrangeHands() {
         _playMat.RearrangeHands();
+    }
+
+    public void PlayAgain() {
+        // TODO reset the game and play again!
+        isGameOver = false;
+        _playerRoundCount = 0;
+        _aiRoundCount = 0;
+        _playerSetCount = 0;
+        _aiSetCount = 0;
+        
+        _playMat.Initialize();
     }
 }
